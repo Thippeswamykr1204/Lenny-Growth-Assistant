@@ -1,0 +1,35 @@
+# Secrets
+.env
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+npm-debug.log*
+
+# DB / local volumes
+*.sqlite3
+pgdata/
+postgres_data/
+ollama_data/
+
+# OS / editor cruft
+.DS_Store
+.vscode/
+.idea/
+
+# Misc
+*.log
+
+# Evaluation reports (real retrieved transcript text / real API responses — never committed verbatim)
+evaluation/reports/*.json
+!evaluation/reports/README.md

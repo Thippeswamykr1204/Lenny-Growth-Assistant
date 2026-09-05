@@ -1,0 +1,206 @@
+{
+  "_provenance": {
+    "note": "expected_episode_title values below are copied verbatim from the YAML frontmatter (`title:` field) of the 30 transcript.md files that backend/scripts/download_transcripts.py selects (SELECTED_SLUGS) from https://github.com/ChatPRD/lennys-podcast-transcripts. Fetched directly from the source repo and cross-checked against the frontmatter for this tier — not fabricated placeholders. See evaluation/reports/README.md for how this was verified in this environment (no live DB/embeddings were available here, so 'appears in retrieved sources' below is judged against episode_title/guest_name as ingest.py would populate them, not against a live pgvector query — run_eval.py itself queries the real, live table when you run it against your ingested DB).",
+    "corpus_source": "https://github.com/ChatPRD/lennys-podcast-transcripts",
+    "selected_slugs_count": 30
+  },
+  "in_domain": [
+    {
+      "id": "q01",
+      "question": "What is the ICE prioritization framework and who created it?",
+      "expected_episodes": ["The original growth hacker reveals his secrets | Sean Ellis (author of \u201cHacking Growth\u201d)"],
+      "note": "Correct answer should credit Sean Ellis and describe ICE (Impact, Confidence, Ease) as a growth-experiment prioritization framework."
+    },
+    {
+      "id": "q02",
+      "question": "What does Casey Winters say most product managers get wrong about working at a real startup?",
+      "expected_episodes": ["Why most product managers are unprepared for the demands of a real startup | Casey Winters"],
+      "note": "Should reflect Casey Winters' critique of PMs coming from big-company backgrounds into startup environments."
+    },
+    {
+      "id": "q03",
+      "question": "How does Sarah Tavel think about the hierarchy of engagement when evaluating a product's growth potential?",
+      "expected_episodes": ["The hierarchy of engagement | Sarah Tavel (Benchmark, Greylock, Pinterest)"],
+      "note": "Should describe her framework for layering engagement signals (e.g., single-player value before network/community value) as an investor lens."
+    },
+    {
+      "id": "q04",
+      "question": "What growth and hiring tactics does Crystal Widjaja recommend for scrappily measuring growth at an early-stage company?",
+      "expected_episodes": ["How to scrappily hire for, measure, and unlock growth | Crystal Widjaja, Gojek"],
+      "note": "Should ground the answer in Crystal Widjaja's Gojek-era experience with lean growth measurement and hiring."
+    },
+    {
+      "id": "q05",
+      "question": "What onboarding lessons does Lauryn Isford share from her time leading growth at Airtable?",
+      "expected_episodes": ["Mastering onboarding | Lauryn Isford (Head of Growth at Airtable)"],
+      "note": "Should cover concrete onboarding tactics attributed to Airtable's growth team, not generic onboarding advice."
+    },
+    {
+      "id": "q06",
+      "question": "How does Hila Qu describe adding a product-led growth (PLG) motion to an existing sales-led business?",
+      "expected_episodes": ["The ultimate guide to adding a PLG motion | Hila Qu (Reforge, GitLab)"],
+      "note": "Should reference her Reforge/GitLab-informed guidance on layering PLG onto an existing GTM motion."
+    },
+    {
+      "id": "q07",
+      "question": "What is founder-led sales, according to Pete Kazanjy, and why does he think founders should do it early on?",
+      "expected_episodes": ["Founder-led sales | Pete Kazanjy (Founding Sales, Atrium)"],
+      "note": "Should define founder-led sales and give Pete Kazanjy's rationale for founders owning early sales motion."
+    },
+    {
+      "id": "q08",
+      "question": "What does Oji Udezue mean by picking 'sharp problems,' and how does that relate to increasing virality?",
+      "expected_episodes": ["Picking sharp problems, increasing virality, and unique product frameworks | Oji Udezue (Typeform)"],
+      "note": "Should tie 'sharp problems' framing to his product frameworks and virality discussion from the Typeform episode."
+    },
+    {
+      "id": "q09",
+      "question": "What early growth tactics does Naomi Gleit describe from her time at Meta?",
+      "expected_episodes": ["Meta\u2019s head of product on working with Mark Zuckerberg, early growth tactics, and more | Naomi Gleit"],
+      "note": "Should reference concrete early-Meta growth tactics, not generic 'growth hacking' advice."
+    },
+    {
+      "id": "q10",
+      "question": "How does Yuhki Yamashita describe the way Figma builds product internally?",
+      "expected_episodes": ["An inside look at how Figma builds product | Yuhki Yamashita (CPO of Figma)"],
+      "note": "Should reflect Figma-specific product-building process as CPO, not generic product management advice."
+    },
+    {
+      "id": "q11",
+      "question": "What does Zoelle Egner identify as Airtable's unconventional growth strategy?",
+      "expected_episodes": ["Lessons from Airtable\u2019s unconventional growth strategy | Zoelle Egner"],
+      "note": "Should be specific to Airtable's approach as described by Zoelle Egner, distinct from Lauryn Isford's onboarding episode."
+    },
+    {
+      "id": "q12",
+      "question": "What does Varun Parmar say about how Miro builds and prioritizes product?",
+      "expected_episodes": ["An inside look at how Miro builds product | Varun Parmar (CPO of Miro)"],
+      "note": "Should be grounded in Varun Parmar's CPO perspective on Miro's product process."
+    },
+    {
+      "id": "q13",
+      "question": "What does Tim Holley describe about how Etsy evolved its product and marketplace growth over time?",
+      "expected_episodes": ["Inside Etsy\u2019s product, growth, and marketplace evolution | Tim Holley (VP of Product, Etsy)"],
+      "note": "Should reference Etsy's marketplace-specific growth evolution, not generic marketplace theory."
+    },
+    {
+      "id": "q14",
+      "question": "What does Sachin Monga share about building Substack's product and growth?",
+      "expected_episodes": ["Building Substack | Sachin Monga (Substack, Facebook)"],
+      "note": "Should be grounded in Sachin Monga's Substack-specific experience."
+    },
+    {
+      "id": "q15",
+      "question": "According to Noam Lovinsky, what makes product management both painful and rewarding?",
+      "expected_episodes": ["The happiness and pain of product management | Noam Lovinsky (Grammarly, FB, YouTube)"],
+      "note": "Should reflect his framing of the emotional highs/lows of the PM role, drawing on Grammarly/FB/YouTube experience."
+    },
+    {
+      "id": "q16",
+      "question": "What does Melissa Tan say about building high-performing teams, based on her experience at Webflow, Dropbox, and Canva?",
+      "expected_episodes": ["Building high-performing teams | Melissa Tan (Webflow, Dropbox, Canva)"],
+      "note": "Should cover team-building practices specifically attributed to her, not generic management advice."
+    },
+    {
+      "id": "q17",
+      "question": "What career framework and A/B testing advice does Laura Modi give for selling to engineers?",
+      "expected_episodes": ["Career frameworks, A/B testing, onboarding tips, selling to engineers |  Laura Modi"],
+      "note": "Should touch on the specific combination of career-framework and selling-to-engineers advice from this episode."
+    },
+    {
+      "id": "q18",
+      "question": "What growth tactics does Krithika Shankarraman describe from her time as Stripe's first marketer and her work at OpenAI?",
+      "expected_episodes": ["Growth tactics from OpenAI and Stripe\u2019s first marketer | Krithika Shankarraman"],
+      "note": "Should reference both the Stripe 'first marketer' framing and OpenAI growth tactics."
+    },
+    {
+      "id": "q19",
+      "question": "What does Jiaona Zhang mean by a 'minimum lovable product,' and how does it differ from an MVP?",
+      "expected_episodes": ["Building minimum lovable products, stories from WeWork & Airbnb, and thriving"],
+      "note": "Should define 'minimum lovable product' and reference her WeWork/Airbnb stories."
+    },
+    {
+      "id": "q20",
+      "question": "What does Jeanne DeWitt Grosser say world-class go-to-market (GTM) looks like in 2026, based on her time at Vercel and Stripe?",
+      "expected_episodes": ["What world-class GTM looks like in 2026 | Jeanne DeWitt Grosser (Vercel, Stripe,"],
+      "note": "Should be grounded in her Vercel/Stripe GTM perspective specifically, given the 2026 framing in the title."
+    },
+    {
+      "id": "q21",
+      "question": "What does Christopher Miller describe as HubSpot's winning growth approach, and how does 'radical accountability' factor in?",
+      "expected_episodes": ["Relentless curiosity, radical accountability, and HubSpot\u2019s winning growth"],
+      "note": "Should tie the 'radical accountability' and 'relentless curiosity' framing back to HubSpot specifics."
+    },
+    {
+      "id": "q22",
+      "question": "According to Shaun Clowes, why are great AI products fundamentally about data, based on his experience at Confluent?",
+      "expected_episodes": ["Why great AI products are all about the data | Shaun Clowes (CPO at Confluent)"],
+      "note": "Should ground the 'AI products are about data' claim in Confluent-specific reasoning, not generic AI commentary."
+    },
+    {
+      "id": "q23",
+      "question": "What does Emily Kramer recommend for building a powerful marketing machine, drawing on her experience at Asana and Carta?",
+      "expected_episodes": ["How to build a powerful marketing machine | Emily Kramer (Asana, Carta, MKT1)"],
+      "note": "Should reflect Emily Kramer's MKT1/Asana/Carta-grounded marketing-org advice."
+    },
+    {
+      "id": "q24",
+      "question": "How does Nilan Peiris describe driving word of mouth as CPO of Wise?",
+      "expected_episodes": ["How to drive word of mouth | Nilan Peiris (CPO of Wise)"],
+      "note": "Should be specific to Wise's word-of-mouth growth tactics as described by Nilan Peiris."
+    },
+    {
+      "id": "q25",
+      "question": "What does Shishir Mehrotra describe as the 'rituals of great teams,' based on his time at Coda, YouTube, and Microsoft?",
+      "expected_episodes": ["The rituals of great teams | Shishir Mehrotra, Coda, YouTube, Microsoft"],
+      "note": "Should reference concrete team rituals, not generic culture advice, and be attributed to Shishir Mehrotra."
+    }
+  ],
+  "out_of_domain": [
+    {
+      "id": "ood01",
+      "question": "What is the boiling point of water in Fahrenheit at sea level?",
+      "note": "General trivia with zero connection to product/growth podcast content; must abstain."
+    },
+    {
+      "id": "ood02",
+      "question": "Who won the FIFA World Cup in 2018?",
+      "note": "Sports trivia; must abstain."
+    },
+    {
+      "id": "ood03",
+      "question": "Can you write me a recipe for a classic margherita pizza?",
+      "note": "Cooking request unrelated to the podcast archive; must abstain."
+    },
+    {
+      "id": "ood04",
+      "question": "What are the main causes of the French Revolution?",
+      "note": "History trivia; must abstain."
+    },
+    {
+      "id": "ood05",
+      "question": "Explain the rules of chess castling.",
+      "note": "Board-game rules, unrelated to product/growth transcripts; must abstain."
+    },
+    {
+      "id": "ood06",
+      "question": "What is the chemical formula for table salt?",
+      "note": "Chemistry trivia; must abstain."
+    },
+    {
+      "id": "ood07",
+      "question": "How do I file my personal income taxes in the United States?",
+      "note": "Tax/legal advice question with no basis in the podcast archive; must abstain."
+    },
+    {
+      "id": "ood08",
+      "question": "What's the current population of Japan?",
+      "note": "General-knowledge fact lookup unrelated to the corpus; must abstain."
+    },
+    {
+      "id": "ood09",
+      "question": "Diagnose why my car makes a squealing noise when I brake.",
+      "note": "Auto-mechanics question, unrelated to product/growth podcast content; must abstain."
+    }
+  ]
+}

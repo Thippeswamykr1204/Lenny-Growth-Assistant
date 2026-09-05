@@ -1,0 +1,91 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: lenny_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      # Host-side port is 5433, not 5432 — many dev machines (esp. macOS
+      # with a local Postgres.app/Homebrew install) already have
+      # something bound to 5432, and that collision has nothing to do
+      # with this project. The container's internal port stays 5432, and
+      # DATABASE_URL always points at the Docker network hostname `db`,
+      # so nothing else changes. Override with DB_HOST_PORT in .env if
+      # 5433 is also taken.
+      - "${DB_HOST_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lenny_backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      DEFAULT_LLM_PROVIDER: ${DEFAULT_LLM_PROVIDER}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
+      OLLAMA_MODEL: ${OLLAMA_MODEL}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      PROVIDER_TIMEOUT_SECONDS: ${PROVIDER_TIMEOUT_SECONDS}
+      OLLAMA_TIMEOUT_SECONDS: ${OLLAMA_TIMEOUT_SECONDS:-}
+      ANTHROPIC_TIMEOUT_SECONDS: ${ANTHROPIC_TIMEOUT_SECONDS:-}
+      DB_POOL_TIMEOUT_SECONDS: ${DB_POOL_TIMEOUT_SECONDS}
+      LOG_LEVEL: ${LOG_LEVEL}
+      APP_ENV: ${APP_ENV}
+      # Tells the health endpoint whether to probe Ollama at all. Compose
+      # profiles can't conditionally set another service's env vars, so
+      # this is driven by .env instead — set LOCAL_AI_ENABLED=true there
+      # when you intend to run with `--profile local-ai`. Not a secret.
+      LOCAL_AI_ENABLED: ${LOCAL_AI_ENABLED}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL}
+      EMBEDDING_DIM: ${EMBEDDING_DIM}
+      CHUNK_TARGET_TOKENS: ${CHUNK_TARGET_TOKENS}
+      CHUNK_OVERLAP_TOKENS: ${CHUNK_OVERLAP_TOKENS}
+      RETRIEVAL_TOP_K: ${RETRIEVAL_TOP_K}
+      SIMILARITY_THRESHOLD_HIGH: ${SIMILARITY_THRESHOLD_HIGH}
+      SIMILARITY_THRESHOLD_MODERATE: ${SIMILARITY_THRESHOLD_MODERATE}
+      SHIP30_WORD_COUNT_MIN: ${SHIP30_WORD_COUNT_MIN}
+      SHIP30_WORD_COUNT_MAX: ${SHIP30_WORD_COUNT_MAX}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lenny_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    depends_on:
+      - backend
+
+  # Optional local inference. Deliberately NOT part of the default
+  # `docker compose up` — this was a locked Tier 0 decision (Ollama is a
+  # toggle, not a forced dependency for every environment). Bring it up
+  # with: docker compose --profile local-ai up
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lenny_ollama
+    profiles: ["local-ai"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  postgres_data:
+  ollama_data:

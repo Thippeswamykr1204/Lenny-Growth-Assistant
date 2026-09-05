@@ -1,0 +1,372 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
+  --color-text: #0f172a;
+  --color-text-soft: #475569;
+  --color-text-faint: #94a3b8;
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-soft: #eef4ff;
+  --color-success: #059669;
+  --color-success-soft: #ecfdf5;
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-abstain: #6d28d9;
+  --color-abstain-soft: #f5f3ff;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-popover: 0 8px 24px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.08);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+button {
+  font-family: inherit;
+}
+
+@keyframes lenny-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lenny-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Production-grade interaction layer (Claude/ChatGPT-style polish).      */
+/* Additive only — no existing class/inline-style contract removed.       */
+/* ---------------------------------------------------------------------- */
+
+@keyframes lenny-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lenny-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lenny-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes lenny-dot-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes lenny-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lenny-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lenny-drawer-in {
+  from {
+    transform: translateX(-16px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Global easing tokens used by the classes below. */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.2s var(--ease-out);
+}
+
+/* Buttons: consistent lift + press feedback, like Claude's action buttons. */
+.lenny-interactive {
+  transition:
+    background-color 0.15s var(--ease-out),
+    border-color 0.15s var(--ease-out),
+    color 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out),
+    transform 0.1s var(--ease-out),
+    opacity 0.15s var(--ease-out);
+  will-change: transform;
+}
+
+.lenny-interactive:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.lenny-interactive:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.05s;
+}
+
+.lenny-interactive:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+/* Primary (filled) buttons get a slightly stronger hover glow. */
+.lenny-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* Ghost/outline buttons (send, tabs, chips, action pills). */
+.lenny-btn-ghost:hover:not(:disabled) {
+  background: var(--color-brand-soft) !important;
+  border-color: var(--color-brand) !important;
+  color: var(--color-brand-hover) !important;
+}
+
+/* Icon-only buttons (hamburger, close, back) get a soft circular hover. */
+.lenny-icon-btn {
+  transition: background-color 0.15s var(--ease-out), transform 0.1s var(--ease-out), color 0.15s var(--ease-out);
+}
+.lenny-icon-btn:hover:not(:disabled) {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.lenny-icon-btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+/* Text input focus ring, matched to the brand color like modern chat apps. */
+.lenny-input-focus {
+  transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background-color 0.15s var(--ease-out);
+}
+.lenny-input-focus:focus {
+  border-color: var(--color-brand) !important;
+  box-shadow: 0 0 0 3px var(--color-brand-soft);
+  background: var(--color-surface) !important;
+}
+
+/* Message bubbles: entrance animation + gentle hover elevation. */
+.lenny-bubble {
+  animation: lenny-slide-up 0.22s var(--ease-out) both;
+  transition: box-shadow 0.15s var(--ease-out), transform 0.15s var(--ease-out);
+}
+.lenny-bubble:hover {
+  box-shadow: var(--shadow-popover);
+}
+
+/* Source chips / pills pop in with a light spring feel. */
+.lenny-chip {
+  transition:
+    background-color 0.15s var(--ease-out),
+    border-color 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out),
+    transform 0.12s var(--ease-snap);
+}
+.lenny-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.18);
+}
+.lenny-chip:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.lenny-expand-in {
+  animation: lenny-pop-in 0.16s var(--ease-out) both;
+  transform-origin: top left;
+}
+
+/* Sidebar / session list rows. */
+.lenny-row:hover {
+  background: var(--color-bg) !important;
+}
+.lenny-row-active {
+  position: relative;
+}
+.lenny-row-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--color-brand);
+}
+
+/* Drawer / modal entrance. */
+.lenny-backdrop {
+  animation: lenny-backdrop-in 0.18s var(--ease-out) both;
+}
+.lenny-drawer {
+  animation: lenny-drawer-in 0.22s var(--ease-out) both;
+}
+
+/* Header logo mark gets a subtle breathing glow, like a "live" product mark. */
+.lenny-logo-mark {
+  transition: transform 0.2s var(--ease-snap), box-shadow 0.2s var(--ease-out);
+}
+.lenny-logo-mark:hover {
+  transform: rotate(-6deg) scale(1.06);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45);
+}
+
+/* Typing / thinking indicator — three bouncing dots, ChatGPT-style. */
+.lenny-typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.lenny-typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: lenny-dot-bounce 1.1s ease-in-out infinite;
+}
+.lenny-typing-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.lenny-typing-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Skeleton shimmer, available for future loading states. */
+.lenny-shimmer {
+  background: linear-gradient(90deg, var(--color-bg) 25%, #eef2f7 37%, var(--color-bg) 63%);
+  background-size: 400px 100%;
+  animation: lenny-shimmer 1.4s ease-in-out infinite;
+}
+
+/* Small inline spinner for busy actions. */
+.lenny-spinner {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: lenny-spin 0.6s linear infinite;
+  opacity: 0.7;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

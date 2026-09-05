@@ -1,0 +1,31 @@
+# Tier 1 (foundation) dependencies only.
+# LLM SDKs (anthropic, ollama client), embedding libs, and RAG deps are
+# deliberately NOT listed here yet — they belong to Tier 2+ when retrieval
+# and provider calls are actually built. Adding them now would be scope
+# creep against the "smallest system" principle from PRD.md.
+
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+pydantic-settings==2.5.2
+sqlalchemy[asyncio]==2.0.35
+asyncpg==0.29.0
+python-dotenv==1.0.1
+httpx==0.27.2
+pytest==8.3.3
+pytest-asyncio==0.24.0
+
+# Tier 2 (ingestion) additions.
+pyyaml==6.0.2                # parse episode YAML frontmatter
+sentence-transformers==3.1.1 # local embedding model (384-dim, offline)
+
+# Tier 3 (providers/retrieval/chat) additions.
+# No pgvector Python package needed — retriever.py casts to ::vector directly
+# in raw SQL (consistent with ingest.py's approach), so only the SDK below
+# is genuinely new.
+anthropic==0.39.0            # cloud provider SDK, imported lazily so a missing
+                              # API key never needs it — see cloud_provider.py
+
+# Tier 4 (Ship30 / artifact generation) additions.
+bleach==6.1.0                 # allow-list HTML sanitizer for artifact content —
+                               # see artifact_generator.py for why this over DOMPurify/regex
