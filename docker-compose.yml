@@ -52,8 +52,14 @@ services:
       RETRIEVAL_TOP_K: ${RETRIEVAL_TOP_K}
       SIMILARITY_THRESHOLD_HIGH: ${SIMILARITY_THRESHOLD_HIGH}
       SIMILARITY_THRESHOLD_MODERATE: ${SIMILARITY_THRESHOLD_MODERATE}
-      SHIP30_WORD_COUNT_MIN: ${SHIP30_WORD_COUNT_MIN}
-      SHIP30_WORD_COUNT_MAX: ${SHIP30_WORD_COUNT_MAX}
+      # Fixed: names now match Settings' ship30_min_words / ship30_max_words
+      # (and .env.example), instead of the old SHIP30_WORD_COUNT_MIN/MAX
+      # names that Settings never read.
+      SHIP30_MIN_WORDS: ${SHIP30_MIN_WORDS}
+      SHIP30_MAX_WORDS: ${SHIP30_MAX_WORDS}
+      # Added: previously set in .env but never passed through to the
+      # container, so it silently fell back to the Settings default.
+      MAX_PROMPT_CHARS: ${MAX_PROMPT_CHARS}
       ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
     ports:
       - "8000:8000"
@@ -65,6 +71,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # Needed at build time for Next.js to inline NEXT_PUBLIC_* vars
+        # into the client bundle; the runtime env block below covers
+        # server-side usage only.
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     container_name: lenny_frontend
     ports:
       - "3000:3000"
