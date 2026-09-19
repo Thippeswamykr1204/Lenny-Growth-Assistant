@@ -3,7 +3,7 @@ Integration test — requires a live Postgres with pgvector and Tier 1's
 migration applied. Skipped automatically if unreachable. Seeds one known
 transcript_chunks row with a hand-built embedding vector, then asserts
 retrieve() returns it with the expected citation shape. Does not require
-Ollama or Anthropic — retrieval never calls an LLM.
+Ollama or Groq — retrieval never calls an LLM.
 """
 import uuid
 

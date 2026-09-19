@@ -9,7 +9,7 @@ artifact_generator.py -- i.e. the stamping described in this tier's
 exit_criteria is actually written to the row, not just computed in memory.
 
 This does NOT exercise the LLM-calling paths (ship30 essay writing, HTML
-generation) -- those need a live provider (Ollama or Anthropic) and are
+generation) -- those need a live provider (Ollama or Groq) and are
 listed as "stated should work but not verified live" in the tier's
 verification report. This test exercises the persistence layer directly,
 the same way sanitize_html()/route_artifact_type() are tested directly in

@@ -38,7 +38,7 @@ def test_database_unavailable_error_never_leaks_detail_into_sse():
 def test_configuration_error_shape():
     exc = ConfigurationError(
         message="The server is misconfigured: no cloud provider credentials.",
-        detail="DEFAULT_LLM_PROVIDER=anthropic but ANTHROPIC_API_KEY is not set.",
+        detail="DEFAULT_LLM_PROVIDER=anthropic but GROQ_API_KEY is not set.",
     )
     assert to_sse_error(exc)["message"] == exc.message
 

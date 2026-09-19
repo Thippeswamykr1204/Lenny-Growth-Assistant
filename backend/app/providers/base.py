@@ -1,5 +1,5 @@
 """
-BaseLLMProvider — the one shared interface both Ollama and Anthropic
+BaseLLMProvider — the one shared interface both Ollama and Groq
 implement, per architecture.md's provider abstraction. Deliberately thin
 (one streaming method) since this project has exactly two providers and two
 skills; a heavier agent framework would add ceremony without benefit here
@@ -36,7 +36,7 @@ class ProviderChunk:
 
 
 class BaseLLMProvider(ABC):
-    name: str  # e.g. "ollama" or "anthropic" — echoed back as provider_used
+    name: str  # e.g. "ollama" or "groq" — echoed back as provider_used
 
     @abstractmethod
     async def stream(

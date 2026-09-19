@@ -23,7 +23,6 @@ sentence-transformers==3.1.1 # local embedding model (384-dim, offline)
 # No pgvector Python package needed — retriever.py casts to ::vector directly
 # in raw SQL (consistent with ingest.py's approach), so only the SDK below
 # is genuinely new.
-anthropic==0.39.0            # cloud provider SDK, imported lazily so a missing
                               # API key never needs it — see cloud_provider.py
 
 # Tier 4 (Ship30 / artifact generation) additions.

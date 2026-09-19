@@ -33,10 +33,10 @@ services:
       DEFAULT_LLM_PROVIDER: ${DEFAULT_LLM_PROVIDER}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
       OLLAMA_MODEL: ${OLLAMA_MODEL}
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
       PROVIDER_TIMEOUT_SECONDS: ${PROVIDER_TIMEOUT_SECONDS}
       OLLAMA_TIMEOUT_SECONDS: ${OLLAMA_TIMEOUT_SECONDS:-}
-      ANTHROPIC_TIMEOUT_SECONDS: ${ANTHROPIC_TIMEOUT_SECONDS:-}
+      GROQ_TIMEOUT_SECONDS: ${GROQ_TIMEOUT_SECONDS:-}
       DB_POOL_TIMEOUT_SECONDS: ${DB_POOL_TIMEOUT_SECONDS}
       LOG_LEVEL: ${LOG_LEVEL}
       APP_ENV: ${APP_ENV}
@@ -60,7 +60,7 @@ services:
       # Added: previously set in .env but never passed through to the
       # container, so it silently fell back to the Settings default.
       MAX_PROMPT_CHARS: ${MAX_PROMPT_CHARS}
-      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+      GROQ_MODEL: ${GROQ_MODEL:-}
     ports:
       - "8000:8000"
     depends_on:

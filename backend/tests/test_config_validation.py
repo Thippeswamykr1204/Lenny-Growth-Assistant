@@ -12,30 +12,30 @@ def _settings(**overrides) -> Settings:
     base = dict(
         database_url="postgresql+asyncpg://x:x@localhost/x",
         default_llm_provider="ollama",
-        anthropic_api_key=None,
+        groq_api_key=None,
     )
     base.update(overrides)
     return Settings(**base)
 
 
-def test_ollama_default_never_requires_anthropic_key():
-    # Explicit regression guard: ANTHROPIC_API_KEY must stay genuinely
+def test_ollama_default_never_requires_groq_key():
+    # Explicit regression guard: GROQ_API_KEY must stay genuinely
     # optional when it isn't actually needed, per .env.example and the
     # hard constraint against regressing that.
-    settings = _settings(default_llm_provider="ollama", anthropic_api_key=None)
+    settings = _settings(default_llm_provider="ollama", groq_api_key=None)
     assert validate_config(settings) == []
 
 
-def test_anthropic_default_without_key_is_a_config_issue():
-    settings = _settings(default_llm_provider="anthropic", anthropic_api_key=None)
+def test_groq_default_without_key_is_a_config_issue():
+    settings = _settings(default_llm_provider="groq", groq_api_key=None)
     issues = validate_config(settings)
     assert len(issues) == 1
     assert isinstance(issues[0], ConfigurationError)
-    assert "ANTHROPIC_API_KEY" in issues[0].detail
+    assert "GROQ_API_KEY" in issues[0].detail
 
 
-def test_anthropic_default_with_key_present_is_fine():
-    settings = _settings(default_llm_provider="anthropic", anthropic_api_key="sk-ant-fake")
+def test_groq_default_with_key_present_is_fine():
+    settings = _settings(default_llm_provider="groq", groq_api_key="sk-ant-fake")
     assert validate_config(settings) == []
 
 
@@ -47,5 +47,5 @@ def test_unknown_default_provider_is_a_config_issue():
 
 
 def test_provider_name_is_case_insensitive():
-    settings = _settings(default_llm_provider="Anthropic", anthropic_api_key="sk-ant-fake")
+    settings = _settings(default_llm_provider="Groq", groq_api_key="sk-ant-fake")
     assert validate_config(settings) == []

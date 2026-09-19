@@ -2,7 +2,7 @@
 Ollama provider — calls the local Ollama HTTP chat API. Streaming, per
 architecture.md. No cloud fallback on failure (locked decision): a
 connection failure here surfaces as a ProviderChunk error, it never
-silently reroutes to Anthropic.
+silently reroutes to Groq.
 """
 import json
 import logging

@@ -4,7 +4,7 @@ provider names. Confirms selection is app logic, never model-decided."""
 import pytest
 
 from app.core.config import Settings
-from app.providers.cloud_provider import AnthropicProvider
+from app.providers.groq_provider import GroqProvider
 from app.providers.factory import UnknownProviderError, get_provider
 from app.providers.ollama_provider import OllamaProvider
 
@@ -15,8 +15,8 @@ def _settings(**overrides) -> Settings:
         default_llm_provider="ollama",
         ollama_base_url="http://ollama:11434",
         ollama_model="llama3.2:3b",
-        anthropic_api_key=None,
-        anthropic_model="claude-3-5-sonnet-20241022",
+        groq_api_key=None,
+        groq_model="llama-3.3-70b-versatile",
         provider_timeout_seconds=30.0,
     )
     base.update(overrides)
@@ -32,9 +32,9 @@ def test_default_provider_from_config():
 
 def test_per_request_override_wins_over_config_default():
     settings = _settings(default_llm_provider="ollama")
-    provider = get_provider(settings, override="anthropic")
-    assert isinstance(provider, AnthropicProvider)
-    assert provider.name == "anthropic"
+    provider = get_provider(settings, override="groq")
+    assert isinstance(provider, GroqProvider)
+    assert provider.name == "groq"
 
 
 def test_unknown_provider_raises():

@@ -31,9 +31,10 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://ollama:11434"
     ollama_model: str = "llama3.2:3b"
 
-    # --- Cloud provider (optional; Tier 1 does not call it) ---
-    anthropic_api_key: str | None = None
-
+    # --- Groq (OpenAI-compatible cloud provider, free tier) ---
+    groq_api_key: str | None = None
+    groq_model: str = "llama-3.3-70b-versatile"
+    
     # --- Frontend-facing (consumed by Next.js, listed here for completeness) ---
     next_public_api_url: str = "http://localhost:8000"
 
@@ -57,8 +58,6 @@ class Settings(BaseSettings):
     similarity_threshold_high: float = 0.75
     similarity_threshold_moderate: float = 0.65
 
-    # --- Anthropic model (Tier 3; anthropic_api_key already declared above) ---
-    anthropic_model: str = "claude-3-5-sonnet-20241022"
     # Kept as the fallback/default both per-provider timeouts below inherit
     # from when not overridden individually — existing callers/tests that
     # only know about this one field keep working unchanged.
@@ -79,9 +78,9 @@ class Settings(BaseSettings):
     # profiles. Both default to provider_timeout_seconds's value so nothing
     # changes for anyone who hasn't touched these new variables.
     ollama_timeout_seconds: float | None = None
-    anthropic_timeout_seconds: float | None = None
+    groq_timeout_seconds: float | None = None
 
-    @field_validator("ollama_timeout_seconds", "anthropic_timeout_seconds", mode="before")
+    @field_validator("ollama_timeout_seconds", "groq_timeout_seconds", mode="before")
     @classmethod
     def _blank_env_string_means_unset(cls, value):
         # Docker Compose's ${VAR:-} syntax always sets the env var, defaulting
@@ -108,10 +107,10 @@ class Settings(BaseSettings):
     def resolved_ollama_timeout(self) -> float:
         return self.ollama_timeout_seconds if self.ollama_timeout_seconds is not None else self.provider_timeout_seconds
 
-    def resolved_anthropic_timeout(self) -> float:
-        return self.anthropic_timeout_seconds if self.anthropic_timeout_seconds is not None else self.provider_timeout_seconds
 
-
+    def resolved_groq_timeout(self) -> float:
+        return self.groq_timeout_seconds if self.groq_timeout_seconds is not None else self.provider_timeout_seconds
+    
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
@@ -124,7 +123,7 @@ def validate_config(settings: Settings) -> list["ConfigurationError"]:
     one function, two call sites, so the two can never drift apart.
 
     Only checks what's required for the app to be minimally useful, per
-    Tier 5 scope: does NOT require ANTHROPIC_API_KEY when
+    Tier 5 scope: does NOT require GROQ_API_KEY when
     default_llm_provider=ollama (that stays genuinely optional, matching
     .env.example) — only when it's actually the configured default and
     would be silently unusable on the first real chat request otherwise.
@@ -134,21 +133,21 @@ def validate_config(settings: Settings) -> list["ConfigurationError"]:
     issues: list[ConfigurationError] = []
 
     provider = settings.default_llm_provider.lower()
-    if provider == "anthropic" and not settings.anthropic_api_key:
+    if provider == "groq" and not settings.groq_api_key:
         issues.append(
             ConfigurationError(
                 message="The server is misconfigured: no cloud provider credentials.",
                 detail=(
-                    "DEFAULT_LLM_PROVIDER=anthropic but ANTHROPIC_API_KEY is not set. "
-                    "Set ANTHROPIC_API_KEY, or set DEFAULT_LLM_PROVIDER=ollama."
+                    "DEFAULT_LLM_PROVIDER=groq but GROQ_API_KEY is not set. "
+                    "Set GROQ_API_KEY, or set DEFAULT_LLM_PROVIDER=ollama."
                 ),
             )
         )
-    elif provider not in ("ollama", "anthropic"):
+    elif provider not in ("ollama", "groq"):
         issues.append(
             ConfigurationError(
                 message="The server is misconfigured: unknown default provider.",
-                detail=f"DEFAULT_LLM_PROVIDER={settings.default_llm_provider!r} is not 'ollama' or 'anthropic'.",
+                detail=f"DEFAULT_LLM_PROVIDER={settings.default_llm_provider!r} is not 'ollama' or 'groq'.",
             )
         )
 

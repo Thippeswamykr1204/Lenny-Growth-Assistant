@@ -8,7 +8,7 @@ Covers:
   - /api/health reports "misconfigured" as a distinct overall state from
     "degraded" when default_llm_provider needs a key that isn't set.
   - App startup fails fast (raises) when misconfigured, and does NOT
-    require ANTHROPIC_API_KEY when the default provider is ollama.
+    require GROQ_API_KEY when the default provider is ollama.
 """
 import pytest
 from httpx import ASGITransport, AsyncClient
@@ -85,8 +85,8 @@ async def test_health_reports_misconfigured_distinctly_from_degraded(monkeypatch
 
     bad_settings = Settings(
         database_url="postgresql+asyncpg://x:x@localhost/x",
-        default_llm_provider="anthropic",
-        anthropic_api_key=None,
+        default_llm_provider="groq",
+        groq_api_key=None,
     )
     monkeypatch.setattr(health_module, "settings", bad_settings)
 
@@ -104,23 +104,23 @@ async def test_startup_fails_fast_when_default_provider_missing_key(monkeypatch)
 
     bad_settings = Settings(
         database_url="postgresql+asyncpg://x:x@localhost/x",
-        default_llm_provider="anthropic",
-        anthropic_api_key=None,
+        default_llm_provider="groq",
+        groq_api_key=None,
     )
     monkeypatch.setattr(main_module, "settings", bad_settings)
 
-    with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY"):
+    with pytest.raises(RuntimeError, match="GROQ_API_KEY"):
         await on_startup()
 
 
 @pytest.mark.asyncio
-async def test_startup_does_not_require_anthropic_key_for_ollama_default():
+async def test_startup_does_not_require_groq_key_for_ollama_default():
     # Regression guard at the startup-validation call site itself (not
     # just the pure function, see test_config_validation.py) — ollama
     # stays bootable with zero cloud credentials configured.
     settings = Settings(
         database_url="postgresql+asyncpg://x:x@localhost/x",
         default_llm_provider="ollama",
-        anthropic_api_key=None,
+        groq_api_key=None,
     )
     assert validate_config(settings) == []
